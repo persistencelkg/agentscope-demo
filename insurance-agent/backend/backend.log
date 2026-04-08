@@ -1,0 +1,315 @@
+INFO:     Started server process [35239]
+INFO:     Started server process [35239]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+Initializing insurance agents...
+Insurance agents initialized.
+INFO:     127.0.0.1:53503 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53718 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53718 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53718 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+/opt/data/ai-project/insurance-agent/backend/venv/lib/python3.13/site-packages/agentscope/model/_dashscope_model.py:232: DeprecationWarning: 'required' is not supported by DashScope API. It will be converted to 'auto'.
+  warnings.warn(
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_compare",
+        "confidence": 0.95,
+        "reasoning": "用户明确使用了触发词'对比'，并且提到了两个具体的产品名称：平安福和国寿福。这表明用户想要比较这两个保险产品之间的差异或优劣。",
+        "products": [
+            "平安福",
+            "国寿福"
+        ]
+    },
+    "id": "call_a0d8da8b2c404b4aa7f545"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_a0d8da8b2c404b4aa7f545",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_compare", "products": ["平安福", "国寿福"], "confidence": 0.95, "reasoning": "用户明确使用了触发词'对比'，并且提到了两个具体的产品名称：平安福和国寿福。这表明用户想要比较这两个保险产品之间的差异或优劣。"}
+Detected intent: IntentType.PRODUCT_COMPARE (confidence: 0.95)
+INFO:     127.0.0.1:53727 - "POST /api/chat HTTP/1.1" 200 OK
+/opt/data/ai-project/insurance-agent/backend/venv/lib/python3.13/site-packages/agentscope/model/_dashscope_model.py:232: DeprecationWarning: 'required' is not supported by DashScope API. It will be converted to 'auto'.
+  warnings.warn(
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_intro",
+        "confidence": 0.9,
+        "reasoning": "用户使用了触发词'介绍一下'，并且提到了一个产品名称：百万医疗险。这表明用户想要了解这个保险产品的详情。",
+        "products": [
+            "百万医疗险"
+        ]
+    },
+    "id": "call_58df7e3189bd4af0b7213b"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_58df7e3189bd4af0b7213b",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_intro", "products": ["百万医疗险"], "confidence": 0.9, "reasoning": "用户使用了触发词'介绍一下'，并且提到了一个产品名称：百万医疗险。这表明用户想要了解这个保险产品的详情。"}
+Detected intent: IntentType.PRODUCT_INTRO (confidence: 0.9)
+INFO:     127.0.0.1:54089 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "surrender",
+        "confidence": 0.95,
+        "reasoning": "用户明确表达了退保的意图，使用了触发词'退保'。这清楚地表明用户想要了解或执行退保流程，但没有提到具体的产品名称。",
+        "products": []
+    },
+    "id": "call_b704fe5753744425b981ea"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_b704fe5753744425b981ea",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "surrender", "products": [], "confidence": 0.95, "reasoning": "用户明确表达了退保的意图，使用了触发词'退保'。这清楚地表明用户想要了解或执行退保流程，但没有提到具体的产品名称。"}
+Detected intent: IntentType.SURRENDER (confidence: 0.95)
+INFO:     127.0.0.1:54556 - "POST /api/chat HTTP/1.1" 200 OK
+Detected intent: IntentType.SURRENDER (confidence: 0.8706378127258456)
+INFO:     127.0.0.1:55031 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_compare",
+        "confidence": 0.95,
+        "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。因此可以高置信度地判断用户的意图为产品比较。",
+        "products": [
+            "平安福",
+            "国寿福"
+        ]
+    },
+    "id": "call_81f5aebc222f4ec1a90cb3"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_81f5aebc222f4ec1a90cb3",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_compare", "products": ["平安福", "国寿福"], "confidence": 0.95, "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。因此可以高置信度地判断用户的意图为产品比较。"}
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_compare",
+        "confidence": 0.95,
+        "reasoning": "用户使用了触发词'对比'，并明确提到了两个产品名称：平安福和国寿福。这表明用户想要对这两个保险产品进行比较。",
+        "products": [
+            "平安福",
+            "国寿福"
+        ]
+    },
+    "id": "call_be0a88a9f74d4720806ce4"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_be0a88a9f74d4720806ce4",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_compare", "products": ["平安福", "国寿福"], "confidence": 0.95, "reasoning": "用户使用了触发词'对比'，并明确提到了两个产品名称：平安福和国寿福。这表明用户想要对这两个保险产品进行比较。"}
+Detected intent: IntentType.PRODUCT_COMPARE (confidence: 0.95)
+INFO:     127.0.0.1:56890 - "POST /api/chat HTTP/1.1" 200 OK
+2026-03-28 00:08:10,979 | WARNING | _react_agent:generate_response:863 - The generate_response function is called when no structured output model is required.
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_compare",
+        "confidence": 0.95,
+        "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。因此可以高置信度地判断用户的意图为产品比较。",
+        "products": [
+            "平安福",
+            "国寿福"
+        ]
+    },
+    "id": "call_e327d8c5d5cd46f7af2dc7"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_e327d8c5d5cd46f7af2dc7",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_compare", "products": ["平安福", "国寿福"], "confidence": 0.95, "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。因此可以高置信度地判断用户的意图为产品比较。"}
+Detected intent: IntentType.PRODUCT_COMPARE (confidence: 0.95)
+INFO:     127.0.0.1:56854 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_intro",
+        "confidence": 0.9,
+        "reasoning": "用户使用了触发词'介绍'，并且提到了一个产品名称：百万医疗险。这表明用户想要了解这个保险产品的详情。",
+        "products": [
+            "百万医疗险"
+        ]
+    },
+    "id": "call_d9dadbfaa17c46c2895d2b"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_d9dadbfaa17c46c2895d2b",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_intro", "products": ["百万医疗险"], "confidence": 0.9, "reasoning": "用户使用了触发词'介绍'，并且提到了一个产品名称：百万医疗险。这表明用户想要了解这个保险产品的详情。"}
+Detected intent: IntentType.PRODUCT_INTRO (confidence: 0.9)
+INFO:     127.0.0.1:57092 - "POST /api/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57299 - "GET / HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_compare",
+        "confidence": 0.95,
+        "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。这清楚地表明用户希望对这两个保险产品进行比较。",
+        "products": [
+            "平安福",
+            "国寿福"
+        ]
+    },
+    "id": "call_36598589553b47c786f4aa"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_36598589553b47c786f4aa",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_compare", "products": ["平安福", "国寿福"], "confidence": 0.95, "reasoning": "用户明确表达了对比的意图，使用了触发词'对比'。同时提到了两个具体的产品名称：平安福和国寿福。这清楚地表明用户希望对这两个保险产品进行比较。"}
+Detected intent: IntentType.PRODUCT_COMPARE (confidence: 0.95)
+INFO:     127.0.0.1:57302 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "surrender",
+        "confidence": 0.95,
+        "reasoning": "用户明确表达了退保的意图，使用了触发词'退保'。这表明用户想要取消现有的保险合同或了解有关退保的信息。用户没有提到具体的产品名称。",
+        "products": []
+    },
+    "id": "call_de02a40ac9784054b9d1f1"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_de02a40ac9784054b9d1f1",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "surrender", "products": [], "confidence": 0.95, "reasoning": "用户明确表达了退保的意图，使用了触发词'退保'。这表明用户想要取消现有的保险合同或了解有关退保的信息。用户没有提到具体的产品名称。"}
+Detected intent: IntentType.SURRENDER (confidence: 0.95)
+INFO:     127.0.0.1:57444 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_intro",
+        "confidence": 0.7,
+        "reasoning": "用户仅提到了一个产品名称'平安福'，而没有使用任何明确的触发词如对比、介绍或退保。然而，在这种情况下，最合理的推测是用户可能想要了解关于这个产品的更多信息。因此，将其归类为产品介绍意图。置信度较低是因为缺少明确的指示词。",
+        "products": [
+            "平安福"
+        ]
+    },
+    "id": "call_94b53c096c37449496658c"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_94b53c096c37449496658c",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_intro", "products": ["平安福"], "confidence": 0.7, "reasoning": "用户仅提到了一个产品名称'平安福'，而没有使用任何明确的触发词如对比、介绍或退保。然而，在这种情况下，最合理的推测是用户可能想要了解关于这个产品的更多信息。因此，将其归类为产品介绍意图。置信度较低是因为缺少明确的指示词。"}
+Detected intent: IntentType.PRODUCT_INTRO (confidence: 0.7)
+INFO:     127.0.0.1:57533 - "POST /api/chat HTTP/1.1" 200 OK
+IntentAnalyzer: {
+    "type": "tool_use",
+    "name": "generate_response",
+    "input": {
+        "intent": "product_intro",
+        "confidence": 0.8,
+        "reasoning": "用户使用了'比对下'这个词，这可能暗示了比较的意图。然而，用户仅提到了一个产品名称：蚂蚁保百万医疗险，并没有提到第二个产品来进行对比。因此更合理的推断是用户希望获取关于这个产品的更多信息或介绍。置信度不是非常高，因为用户的表达可能存在一定的模糊性。",
+        "products": [
+            "蚂蚁保百万医疗险"
+        ]
+    },
+    "id": "call_5f6ae897ef4a4ea4a641d2"
+}
+system: {
+    "type": "tool_result",
+    "id": "call_5f6ae897ef4a4ea4a641d2",
+    "name": "generate_response",
+    "output": [
+        {
+            "type": "text",
+            "text": "Successfully generated response."
+        }
+    ]
+}
+IntentAnalyzer: {"intent": "product_intro", "products": ["蚂蚁保百万医疗险"], "confidence": 0.8, "reasoning": "用户使用了'比对下'这个词，这可能暗示了比较的意图。然而，用户仅提到了一个产品名称：蚂蚁保百万医疗险，并没有提到第二个产品来进行对比。因此更合理的推断是用户希望获取关于这个产品的更多信息或介绍。置信度不是非常高，因为用户的表达可能存在一定的模糊性。"}
+Detected intent: IntentType.PRODUCT_INTRO (confidence: 0.8)
+INFO:     127.0.0.1:58590 - "POST /api/chat HTTP/1.1" 200 OK
