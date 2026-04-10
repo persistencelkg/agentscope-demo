@@ -5,8 +5,19 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from schemas import IntentAnalysis, IntentType, CardPayload, CardType
-from backend.app.tools.product_compare import PRODUCT_DB, _find_product, _build_comparison
+from backend.app.models.schemas import (
+    CardPayload,
+    CardType,
+    IntentAnalysis,
+    IntentType,
+    IntroResult,
+    SurrenderResult,
+)
+from backend.app.tools.product_compare import (
+    PRODUCT_DB,
+    _build_comparison,
+    _find_product,
+)
 
 
 class InsuranceExecutorAgent:
@@ -78,8 +89,6 @@ class InsuranceExecutorAgent:
                 "card": None,
             }
 
-        from backend.app.models.schemas import IntroResult
-
         highlights = product.features[:3] if product.features else []
 
         if product.category == "重疾险":
@@ -149,8 +158,6 @@ class InsuranceExecutorAgent:
         surrender_value = total_premium * ratio
         loss_amount = total_premium - surrender_value
         loss_percentage = (loss_amount / total_premium) * 100
-
-        from backend.app.models.schemas import SurrenderResult
 
         result = SurrenderResult(
             policy_id=f"POL-{product.id}-{policy_years}",

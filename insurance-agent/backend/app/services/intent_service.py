@@ -30,6 +30,11 @@ INTENT_PATTERNS: dict[IntentType, list[str]] = {
     ],
 }
 
+# Pre-compiled regex patterns for performance
+_COMPILED_INTENT_PATTERNS: dict[IntentType, list[re.Pattern]] = {}
+for intent, patterns in INTENT_PATTERNS.items():
+    _COMPILED_INTENT_PATTERNS[intent] = [re.compile(p, re.IGNORECASE) for p in patterns]
+
 # Product name patterns
 PRODUCT_PATTERNS = [
     r"产品\s*([A-Za-z0-9\u4e00-\u9fa5]+)",
@@ -37,6 +42,12 @@ PRODUCT_PATTERNS = [
     r"(平安福|国寿福|金佑人生|康宁保|百万医疗|e享护|好医保|尊享e生)",
     r"([A-Za-z0-9]+(?:版|Pro|Plus|旗舰版|尊享版)?)",
 ]
+
+# Pre-compiled product patterns
+_COMPILED_PRODUCT_PATTERNS = [re.compile(p, re.IGNORECASE) for p in PRODUCT_PATTERNS]
+
+# Keyword extraction pattern
+_KEYWORD_PATTERN = re.compile(r"[\u4e00-\u9fa5]+|[a-zA-Z]+")
 
 # Sample products for fuzzy and vector matching
 PRODUCT_DATABASE = [
@@ -143,18 +154,18 @@ class IntentService:
         return vector_result
 
     def _exact_match(self, query: str) -> IntentAnalysis:
-        """Exact pattern matching using regex."""
+        """Exact pattern matching using pre-compiled regex."""
         best_intent = IntentType.UNKNOWN
         best_score = 0.0
 
-        for intent, patterns in INTENT_PATTERNS.items():
+        for intent, compiled_patterns in _COMPILED_INTENT_PATTERNS.items():
             score = 0.0
-            for pattern in patterns:
-                if re.search(pattern, query, re.IGNORECASE):
+            for pattern in compiled_patterns:
+                if pattern.search(query):
                     score += 1.0
 
-            if patterns:
-                score = score / len(patterns)
+            if compiled_patterns:
+                score = score / len(compiled_patterns)
                 if score > best_score:
                     best_score = score
                     best_intent = intent
@@ -166,19 +177,24 @@ class IntentService:
             raw_query=query,
         )
 
+    # Pre-extracted keywords for fuzzy matching (computed once at module level)
+    _FUZZY_KEYWORDS: dict[IntentType, list[str]] = {}
+    for intent, patterns in INTENT_PATTERNS.items():
+        keywords = set()
+        for pattern in patterns:
+            keywords.update(_KEYWORD_PATTERN.findall(pattern))
+        _FUZZY_KEYWORDS[intent] = list(keywords)
+
     def _fuzzy_match(self, query: str) -> IntentAnalysis:
-        """Fuzzy string matching."""
+        """Fuzzy string matching using pre-extracted keywords."""
         best_intent = IntentType.UNKNOWN
         best_score = 0.0
 
-        for intent, patterns in INTENT_PATTERNS.items():
+        for intent, keywords in self._FUZZY_KEYWORDS.items():
             max_similarity = 0.0
-            for pattern in patterns:
-                # Extract pattern keywords
-                keywords = re.findall(r"[\u4e00-\u9fa5]+|[a-zA-Z]+", pattern)
-                for keyword in keywords:
-                    similarity = SequenceMatcher(None, query, keyword).ratio()
-                    max_similarity = max(max_similarity, similarity)
+            for keyword in keywords:
+                similarity = SequenceMatcher(None, query, keyword).ratio()
+                max_similarity = max(max_similarity, similarity)
 
             if max_similarity > best_score:
                 best_score = max_similarity
@@ -222,12 +238,12 @@ class IntentService:
         )
 
     def _extract_products(self, query: str, method: ExtractMethod) -> list[str]:
-        """Extract product names from query."""
+        """Extract product names from query using pre-compiled patterns."""
         products: list[str] = []
 
-        # Try regex extraction
-        for pattern in PRODUCT_PATTERNS:
-            matches = re.findall(pattern, query, re.IGNORECASE)
+        # Try regex extraction with pre-compiled patterns
+        for pattern in _COMPILED_PRODUCT_PATTERNS:
+            matches = pattern.findall(query)
             products.extend(matches)
 
         # Clean and deduplicate

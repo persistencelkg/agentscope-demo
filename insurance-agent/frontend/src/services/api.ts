@@ -4,20 +4,38 @@ import type { ChatRequest, ChatResponse, StreamMessage } from '../types';
 
 const API_BASE = '/api';
 
+// Request deduplication cache
+const pendingRequests = new Map<string, Promise<ChatResponse>>();
+
+// Response cache for GET requests
+const responseCache = new Map<string, { data: unknown; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 export async function sendMessage(request: ChatRequest): Promise<ChatResponse> {
-  const response = await fetch(`${API_BASE}/chat`, {
+  // Deduplicate by message content
+  const cacheKey = `${request.session_id}:${request.message}`;
+  
+  if (pendingRequests.has(cacheKey)) {
+    return pendingRequests.get(cacheKey)!;
+  }
+
+  const promise = fetch(`${API_BASE}/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(request),
+  }).then(async (response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }).finally(() => {
+    pendingRequests.delete(cacheKey);
   });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
+  pendingRequests.set(cacheKey, promise);
+  return promise;
 }
 
 export async function* sendMessageStream(
@@ -70,17 +88,35 @@ export async function* sendMessageStream(
 }
 
 export async function getIntents(): Promise<{ intents: Array<{ type: string; name: string; description: string; example: string }> }> {
+  const cacheKey = 'intents';
+  const cached = responseCache.get(cacheKey);
+  
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data as ReturnType<typeof getIntents>;
+  }
+
   const response = await fetch(`${API_BASE}/intents`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  return response.json();
+  const data = await response.json();
+  responseCache.set(cacheKey, { data, timestamp: Date.now() });
+  return data;
 }
 
 export async function getProducts(): Promise<{ products: string[] }> {
+  const cacheKey = 'products';
+  const cached = responseCache.get(cacheKey);
+  
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data as ReturnType<typeof getProducts>;
+  }
+
   const response = await fetch(`${API_BASE}/products`);
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  return response.json();
+  const data = await response.json();
+  responseCache.set(cacheKey, { data, timestamp: Date.now() });
+  return data;
 }
