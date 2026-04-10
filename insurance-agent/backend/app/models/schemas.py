@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import Field
 from enum import Enum
 from typing import Any, Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class IntentType(str, Enum):
