@@ -19,7 +19,6 @@ from backend.app.models.schemas import (
 from backend.app.agents.executor_agent import InsuranceExecutorAgent
 
 
-
 # Global agents
 intent_agent: IntentAgent | None = None
 executor_agent: InsuranceExecutorAgent | None = None

@@ -39,10 +39,10 @@ PRODUCT_DB: dict[str, ProductInfo] = {
         name="国寿福盛典版",
         category="重疾险",
         premium=7500.0,
-        coverage=["重疾", "中症", "轻症", "身故"],
+        coverage=["重疾", "症", "轻症", "身故"],
         features=[
             "120种重疾保障",
-            "25种中症保障",
+            "25种症保障",
             "50种轻症保障",
             "身故赔付保额",
             "特定疾病额外赔",
@@ -84,6 +84,17 @@ PRODUCT_DB: dict[str, ProductInfo] = {
         term="20年",
     ),
 }
+
+# Product index for O(1) lookup by normalized name
+_PRODUCT_INDEX: dict[str, ProductInfo] = {}
+for product in PRODUCT_DB.values():
+    _PRODUCT_INDEX[product.name.lower()] = product
+    _PRODUCT_INDEX[product.id.lower()] = product
+    for alt in [
+        product.name.replace("2024", "").replace("盛典版", "").replace("长期医疗", "")
+    ]:
+        if alt and alt != product.name:
+            _PRODUCT_INDEX[alt.lower()] = product
 
 
 async def compare_products(
@@ -203,7 +214,7 @@ async def get_product_intro(
                 text=f"以下是 {product.name} 的详细介绍。",
             )
         ],
-        metadata={"card": card.model_   dump()},
+        metadata={"card": card.model_dump()},
     )
 
 
@@ -284,19 +295,20 @@ async def calculate_surrender(
 
 
 def _find_product(name: str) -> ProductInfo | None:
-    """Find product by fuzzy matching."""
-    # Direct match
-    if name in PRODUCT_DB:
-        return PRODUCT_DB[name]
+    """Find product using O(1) index lookup with fallback for fuzzy matching."""
+    if not name:
+        return None
 
-    # Partial match
+    name_lower = name.lower()
+
+    # O(1) lookup from index
+    if name_lower in _PRODUCT_INDEX:
+        return _PRODUCT_INDEX[name_lower]
+
+    # Partial match fallback (rare case)
     for key, product in PRODUCT_DB.items():
         if name in key or key in name:
             return product
-
-    # Case insensitive match
-    name_lower = name.lower()
-    for key, product in PRODUCT_DB.items():
         if name_lower in key.lower():
             return product
 
